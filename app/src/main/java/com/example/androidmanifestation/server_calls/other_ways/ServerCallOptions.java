@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidmanifestation.R;
+import com.example.androidmanifestation.server_calls.retrofit_call.RetrofitCallActivity;
 
 public class ServerCallOptions extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,6 +17,8 @@ public class ServerCallOptions extends AppCompatActivity implements View.OnClick
     Button btnLoopj;
     Button btnVolley;
     Button btnOkhttp;
+    Button btnRetrofit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +29,14 @@ public class ServerCallOptions extends AppCompatActivity implements View.OnClick
         btnLoopj = findViewById(R.id.btnLoopj);
         btnVolley = findViewById(R.id.btnVolley);
         btnOkhttp = findViewById(R.id.btnOkhttp);
+        btnRetrofit = findViewById(R.id.btnRetrofit);
 
 
         btnNoLibrary.setOnClickListener(this);
         btnLoopj.setOnClickListener(this);
         btnVolley.setOnClickListener(this);
         btnOkhttp.setOnClickListener(this);
+        btnRetrofit.setOnClickListener(this);
 
     }
 
@@ -55,6 +60,11 @@ public class ServerCallOptions extends AppCompatActivity implements View.OnClick
             }
             case R.id.btnOkhttp: {
                 Intent intent = new Intent(this, OkhttpCallActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.btnRetrofit: {
+                Intent intent = new Intent(this, RetrofitCallActivity.class);
                 startActivity(intent);
                 break;
             }

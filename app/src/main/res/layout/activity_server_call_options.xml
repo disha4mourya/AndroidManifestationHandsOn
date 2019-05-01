@@ -39,5 +39,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/using_okhttp"/>
+    <Button
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOkhttp"
+        android:id="@+id/btnRetrofit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Using Retrofit"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

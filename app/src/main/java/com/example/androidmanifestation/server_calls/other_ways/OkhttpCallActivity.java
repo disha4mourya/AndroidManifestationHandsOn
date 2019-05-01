@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.SONGS_LIST_URL;
+import static com.example.androidmanifestation.server_calls.utils.Constants.SONGS_LIST_URL;
 
 public class OkhttpCallActivity extends AppCompatActivity {
 

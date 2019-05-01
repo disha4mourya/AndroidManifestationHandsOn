@@ -1,6 +1,5 @@
 package com.example.androidmanifestation.server_calls.other_ways;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidmanifestation.R;
 import com.example.androidmanifestation.server_calls.adapter.SongsAdapter;
 import com.example.androidmanifestation.server_calls.entity.SongsEntity;
+import com.example.androidmanifestation.server_calls.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +29,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.CONNECTION_TIMEOUT;
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.READ_TIMEOUT;
+import static com.example.androidmanifestation.server_calls.utils.Constants.CONNECTION_TIMEOUT;
+import static com.example.androidmanifestation.server_calls.utils.Constants.READ_TIMEOUT;
 
 
 public class NoLibraryCallActivity extends AppCompatActivity {

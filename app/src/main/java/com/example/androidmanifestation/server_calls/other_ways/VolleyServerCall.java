@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.SONGS_LIST_URL;
+import static com.example.androidmanifestation.server_calls.utils.Constants.SONGS_LIST_URL;
 
 
 public class VolleyServerCall extends AppCompatActivity {

@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.androidmanifestation">
-
-    <!--permission required for internet access-->
+    <!-- permission required for internet access -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".server_calls.retrofit_call.RetrofitCallActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,19 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".server_calls.other_ways.ServerCallOptions" />
         <activity android:name=".server_calls.other_ways.NoLibraryCallActivity" />
         <activity android:name=".server_calls.other_ways.LoopjCallActivity" />
         <activity android:name=".server_calls.other_ways.VolleyServerCall" />
-        <activity android:name=".server_calls.other_ways.OkhttpCallActivity" />
-
-        <!--needed for old http call-->
+        <activity android:name=".server_calls.other_ways.OkhttpCallActivity" /> <!-- needed for old http call -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-
 
 </manifest>
