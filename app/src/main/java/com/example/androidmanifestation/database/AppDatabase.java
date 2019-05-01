@@ -17,9 +17,9 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase dbInstance;
     private static final Object LOCK=new Object();
     private static final String DATABASE_NAME="todolist";
-    private String TAG=AppDatabase.class.getSimpleName();
+    private static String TAG=AppDatabase.class.getSimpleName();
 
-    public AppDatabase getInstance(Context context){
+    public static AppDatabase getInstance(Context context){
         if (dbInstance==null){
             Log.d(TAG, "Creating new database instance");
 
