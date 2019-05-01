@@ -57,14 +57,19 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //Create taskEntry variable using the variables defined above
         //make taskEntry final so it is visible inside the run method
-        TaskEntity taskEntity = new TaskEntity(description, priority, date);
+        final TaskEntity taskEntity = new TaskEntity(description, priority, date);
 
         //Get the diskIO Executor from the instance of AppExecutors and
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                //Use the taskDao in the AppDatabase variable to insert the taskEntry
+                appDatabase.taskDao().insertTask(taskEntity);
+                //call finish() to come back to MainActivity
+                finish();
+            }
+        });
 
-        //Use the taskDao in the AppDatabase variable to insert the taskEntry
-        appDatabase.taskDao().insertTask(taskEntity);
-        //call finish() to come back to MainActivity
-        finish();
     }
 
     private int getTaskPriority() {
