@@ -1,6 +1,8 @@
 package com.example.androidmanifestation;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         intialiseViews();
+        setUpAddTaskListener();
+    }
+
+    private void setUpAddTaskListener() {
+        fabAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,AddTaskActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void intialiseViews() {

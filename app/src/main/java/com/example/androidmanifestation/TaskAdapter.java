@@ -19,31 +19,32 @@ import java.util.Locale;
  */
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    private static final String DATE_FORMAT="dd/MM/yyyy";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
     final private TaskClickListener mTaskClickListener;
     private Context mContext;
     private List<TaskEntity> taskEntityList;
-    private SimpleDateFormat simpleDateFormat=new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
 
-    public TaskAdapter(Context context, TaskClickListener taskClickListener){
-        mContext=context;
-        mTaskClickListener=taskClickListener;
+    public TaskAdapter(Context context, TaskClickListener taskClickListener) {
+        mContext = context;
+        mTaskClickListener = taskClickListener;
     }
+
     @Override
-    public TaskViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(mContext)
-                .inflate(R.layout.task_row,viewGroup,false);
+    public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.task_row, viewGroup, false);
         return new TaskViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int i) {
 
-        TaskEntity taskEntity=taskEntityList.get(i);
-        String description=taskEntity.getDescription();
-        int priority=taskEntity.getPriority();
-        String priorityStr= String.valueOf(priority);
-        String updatedAt=simpleDateFormat.format(taskEntity.getUpdatedAt());
+        TaskEntity taskEntity = taskEntityList.get(i);
+        String description = taskEntity.getDescription();
+        int priority = taskEntity.getPriority();
+        String priorityStr = String.valueOf(priority);
+        String updatedAt = simpleDateFormat.format(taskEntity.getUpdatedAt());
 
         taskViewHolder.tvDescription.setText(description);
         taskViewHolder.tvCreatedTime.setText(updatedAt);
@@ -52,24 +53,26 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @Override
     public int getItemCount() {
-        if (taskEntityList==null){
+        if (taskEntityList == null) {
             return 0;
         }
         return taskEntityList.size();
     }
 
-    public List<TaskEntity> getTasks(){
+    public List<TaskEntity> getTasks() {
         return taskEntityList;
     }
 
-    public void setTasks(List<TaskEntity> taskEntities){
-        taskEntityList=taskEntities;
+    public void setTasks(List<TaskEntity> taskEntities) {
+        taskEntityList = taskEntities;
         notifyDataSetChanged();
     }
-    public interface TaskClickListener{
+
+    public interface TaskClickListener {
         void onTaskClickListener(int taskId);
     }
-    class TaskViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
+
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvDescription;
         TextView tvCreatedTime;
@@ -77,15 +80,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvDescription=itemView.findViewById(R.id.tvDescription);
-            tvCreatedTime=itemView.findViewById(R.id.tvCreatedTime);
-            tvPriority=itemView.findViewById(R.id.tvPriority);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvCreatedTime = itemView.findViewById(R.id.tvCreatedTime);
+            tvPriority = itemView.findViewById(R.id.tvPriority);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            int taskId=taskEntityList.get(getAdapterPosition()).getId();
+            int taskId = taskEntityList.get(getAdapterPosition()).getId();
             mTaskClickListener.onTaskClickListener(taskId);
         }
     }
