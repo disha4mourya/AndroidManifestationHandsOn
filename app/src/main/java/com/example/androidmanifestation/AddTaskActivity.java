@@ -2,6 +2,7 @@ package com.example.androidmanifestation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ public class AddTaskActivity extends AppCompatActivity {
     RadioGroup rgPriority;
     Button btnAddTask;
 
+    // Constants for priority
     public static final int HIGH_PRIORITY = 1;
     public static final int MEDIUM_PRIORITY = 2;
     public static final int LOW_PRIORITY = 3;
@@ -26,6 +28,14 @@ public class AddTaskActivity extends AppCompatActivity {
     // Create AppDatabase member variable for the Database
     AppDatabase appDatabase;
 
+    // Extra for the task ID to be received in the intent
+    public static final String EXTRA_TASK_ID = "extraTaskId";
+    // Extra for the task ID to be received after rotation
+    public static final String INSTANCE_TASK_ID = "instanceTaskId";
+    // Constant for default task id to be used when not in update mode
+    public static final int DEFAULT_TASK_ID = -1;
+
+    private int mTaskId = DEFAULT_TASK_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,48 @@ public class AddTaskActivity extends AppCompatActivity {
         appDatabase = AppDatabase.getInstance(this);
         initViews();
         addTaskListener();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
+            mTaskId = savedInstanceState.getInt(INSTANCE_TASK_ID, DEFAULT_TASK_ID);
+        }
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_TASK_ID)) {
+            btnAddTask.setText(R.string.update_button);
+            if (mTaskId == DEFAULT_TASK_ID) {
+                mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
+
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final TaskEntity taskEntity = appDatabase.taskDao().loadTaskById(mTaskId);
+                        populateUi(taskEntity);
+                    }
+                });
+            }
+        }
+    }
+
+    private void populateUi(TaskEntity taskEntity) {
+        if (taskEntity == null) {
+            return;
+        }
+        edtTaskDescription.setText(taskEntity.getDescription());
+        setPriorityInViews(taskEntity.getPriority());
+    }
+
+    private void setPriorityInViews(int priority) {
+        switch (priority) {
+            case HIGH_PRIORITY:
+                (rgPriority).check(R.id.rbHigh);
+                break;
+            case MEDIUM_PRIORITY:
+                (rgPriority).check(R.id.rbMedium);
+                break;
+            case LOW_PRIORITY:
+                (rgPriority).check(R.id.rbLow);
+                break;
+        }
     }
 
     private void addTaskListener() {
@@ -63,8 +115,14 @@ public class AddTaskActivity extends AppCompatActivity {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                //Use the taskDao in the AppDatabase variable to insert the taskEntry
-                appDatabase.taskDao().insertTask(taskEntity);
+
+                if (mTaskId==DEFAULT_TASK_ID) {
+                    //Use the taskDao in the AppDatabase variable to insert the taskEntry
+                    appDatabase.taskDao().insertTask(taskEntity);
+                }else {
+                    taskEntity.setId(mTaskId);
+                    appDatabase.taskDao().updateTask(taskEntity);
+                }
                 //call finish() to come back to MainActivity
                 finish();
             }

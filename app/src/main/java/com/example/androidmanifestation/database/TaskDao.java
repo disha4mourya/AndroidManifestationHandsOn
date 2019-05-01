@@ -23,4 +23,8 @@ public interface TaskDao {
 
     @Insert
     void insertTask(TaskEntity taskEntity);
+
+    //Create a Query method named loadTaskById that receives an int id and returns a TaskEntry Object
+    @Query("Select * from tasks where id=:id")
+    TaskEntity loadTaskById(int id);
 }
