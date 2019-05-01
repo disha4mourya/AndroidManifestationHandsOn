@@ -1,14 +1,27 @@
-package com.example.androidmanifestation;
+package com.example.androidmanifestation.database;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+//Annotate the class with Entity. Use "task" for the table name
+@Entity(tableName = "tasks")
 public class TaskEntity {
 
+    //Annotate the id as PrimaryKey. Set autoGenerate to true.
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String description;
     private int priority;
+
+    @ColumnInfo(name = "update_at")
     private Date updatedAt;
 
+    //Use the Ignore annotation so Room knows that it has to use the other constructor instead
+    @Ignore
     public TaskEntity(String description, int priority, Date updatedAt) {
         this.description = description;
         this.priority = priority;
