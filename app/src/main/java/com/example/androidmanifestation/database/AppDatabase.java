@@ -9,18 +9,18 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 //Annotate as database and define version as 1
-@Database(entities = {TaskEntity.class},version = 1,exportSchema = false)
+@Database(entities = {TaskEntity.class}, version = 1, exportSchema = false)
 //provide a type converter to deal with date data type
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase dbInstance;
-    private static final Object LOCK=new Object();
-    private static final String DATABASE_NAME="todolist";
-    private static String TAG=AppDatabase.class.getSimpleName();
+    private static final Object LOCK = new Object();
+    private static final String DATABASE_NAME = "todolist";
+    private static String TAG = AppDatabase.class.getSimpleName();
 
-    public static AppDatabase getInstance(Context context){
-        if (dbInstance==null){
+    public static AppDatabase getInstance(Context context) {
+        if (dbInstance == null) {
             Log.d(TAG, "Creating new database instance");
 
             synchronized (LOCK) {
@@ -29,7 +29,9 @@ public abstract class AppDatabase extends RoomDatabase {
                         // COMPLETED (2) call allowMainThreadQueries before building the instance
                         // Queries should be done in a separate thread to avoid locking the UI
                         // We will allow this ONLY TEMPORALLY to see that our DB is working
-                        .allowMainThreadQueries()
+
+                        // Disable queries on main thread
+                        // .allowMainThreadQueries()
                         .build();
             }
         }
@@ -37,5 +39,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
         return dbInstance;
     }
+
     public abstract TaskDao taskDao();
 }

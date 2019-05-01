@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidmanifestation.database.AppDatabase;
+import com.example.androidmanifestation.database.TaskEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 //implement task click listener
 public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskClickListener {
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
     private void setAdapterOnRecyclerView() {
         //Initialize member variable for adapter
         taskAdapter=new TaskAdapter(this,this);
-        rvTasks.setLayoutManager(new GridLayoutManager(this,2));
+        rvTasks.setLayoutManager(new LinearLayoutManager(this));
         //set adapter on recycler view
         rvTasks.setAdapter(taskAdapter);
     }
@@ -49,8 +52,24 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
     protected void onResume() {
         super.onResume();
 
-        taskAdapter.setTasks(appDatabase.taskDao().loadAllTasks());
-        //Call the adapter's setTasks method using the result
+
+        //Get the diskIO Executor from the instance of AppExecutors and
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<TaskEntity> taskEntityList=appDatabase.taskDao().loadAllTasks();
+
+                //Wrap the setTask call in a call to runOnUiThread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Call the adapter's setTasks method using the result
+                        taskAdapter.setTasks(taskEntityList);
+                    }
+                });
+            }
+        });
     }
 
     private void setUpAddTaskListener() {

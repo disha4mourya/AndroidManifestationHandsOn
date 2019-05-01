@@ -56,7 +56,11 @@ public class AddTaskActivity extends AppCompatActivity {
         Date date = new Date();
 
         //Create taskEntry variable using the variables defined above
+        //make taskEntry final so it is visible inside the run method
         TaskEntity taskEntity = new TaskEntity(description, priority, date);
+
+        //Get the diskIO Executor from the instance of AppExecutors and
+
         //Use the taskDao in the AppDatabase variable to insert the taskEntry
         appDatabase.taskDao().insertTask(taskEntity);
         //call finish() to come back to MainActivity
