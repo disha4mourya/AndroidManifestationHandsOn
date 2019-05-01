@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.telecom.Call;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,16 +35,44 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
         setContentView(R.layout.activity_main);
 
         // Initialize member variable for the data base
-        appDatabase=AppDatabase.getInstance(this);
+        appDatabase = AppDatabase.getInstance(this);
 
         intialiseViews();
         setUpAddTaskListener();
         setAdapterOnRecyclerView();
+
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+
+                //Get the diskIO Executor from the instance of AppExecutors and
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        //get the position from the viewHolder parameter
+                        int position = viewHolder.getAdapterPosition();
+
+                        //Call deleteTask in the taskDao with the task at that position
+                        List<TaskEntity> taskEntityList = taskAdapter.getTasks();
+                        appDatabase.taskDao().deleteTask(taskEntityList.get(position));
+
+                        //Call retrieveTasks method to refresh the UI
+                        retrieveTask();
+                    }
+                });
+            }
+        }).attachToRecyclerView(rvTasks);
     }
 
     private void setAdapterOnRecyclerView() {
         //Initialize member variable for adapter
-        taskAdapter=new TaskAdapter(this,this);
+        taskAdapter = new TaskAdapter(this, this);
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
         //set adapter on recycler view
         rvTasks.setAdapter(taskAdapter);
@@ -51,14 +81,15 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
     @Override
     protected void onResume() {
         super.onResume();
+        retrieveTask();
+    }
 
-
+    private void retrieveTask() {
         //Get the diskIO Executor from the instance of AppExecutors and
-
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final List<TaskEntity> taskEntityList=appDatabase.taskDao().loadAllTasks();
+                final List<TaskEntity> taskEntityList = appDatabase.taskDao().loadAllTasks();
 
                 //Wrap the setTask call in a call to runOnUiThread
                 runOnUiThread(new Runnable() {
@@ -72,11 +103,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
         });
     }
 
+
     private void setUpAddTaskListener() {
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,AddTaskActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(intent);
             }
         });
