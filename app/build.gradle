@@ -42,6 +42,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0-alpha04'
     annotationProcessor 'androidx.lifecycle:lifecycle-livedata-core:2.1.0-alpha04'
 
+    //for view model
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha04'
+
     testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'androidx.test:runner:1.1.1'

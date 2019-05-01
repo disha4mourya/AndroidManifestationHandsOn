@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -71,8 +72,9 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
             }
         }).attachToRecyclerView(rvTasks);
 
-        //call retrieve task from here
-        retrieveTask();
+        //remove retrieve task from here
+        //add set up view model
+        setUpViewModel();
     }
 
     private void setAdapterOnRecyclerView() {
@@ -84,19 +86,15 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
     }
 
 
-    private void retrieveTask() {
-
-        //Extract all this logic outside the Executor and remove the Executor
-        final LiveData<List<TaskEntity>> taskEntity=appDatabase.taskDao().loadAllTasks();
-        taskEntity.observe(this, new Observer<List<TaskEntity>>() {
+    private void setUpViewModel(){
+        MainViewModel mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel.getAllTasks().observe(this, new Observer<List<TaskEntity>>() {
             @Override
             public void onChanged(List<TaskEntity> taskEntities) {
                 taskAdapter.setTasks(taskEntities);
             }
         });
-
     }
-
 
     private void setUpAddTaskListener() {
         fabAddTask.setOnClickListener(new View.OnClickListener() {
