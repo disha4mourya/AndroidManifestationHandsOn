@@ -7,6 +7,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,12 +64,15 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
                         List<TaskEntity> taskEntityList = taskAdapter.getTasks();
                         appDatabase.taskDao().deleteTask(taskEntityList.get(position));
 
+                        //Remove the call to retrieveTasks
                         //Call retrieveTasks method to refresh the UI
-                        retrieveTask();
                     }
                 });
             }
         }).attachToRecyclerView(rvTasks);
+
+        //call retrieve task from here
+        retrieveTask();
     }
 
     private void setAdapterOnRecyclerView() {
@@ -78,29 +83,18 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
         rvTasks.setAdapter(taskAdapter);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        retrieveTask();
-    }
 
     private void retrieveTask() {
-        //Get the diskIO Executor from the instance of AppExecutors and
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<TaskEntity> taskEntityList = appDatabase.taskDao().loadAllTasks();
 
-                //Wrap the setTask call in a call to runOnUiThread
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Call the adapter's setTasks method using the result
-                        taskAdapter.setTasks(taskEntityList);
-                    }
-                });
+        //Extract all this logic outside the Executor and remove the Executor
+        final LiveData<List<TaskEntity>> taskEntity=appDatabase.taskDao().loadAllTasks();
+        taskEntity.observe(this, new Observer<List<TaskEntity>>() {
+            @Override
+            public void onChanged(List<TaskEntity> taskEntities) {
+                taskAdapter.setTasks(taskEntities);
             }
         });
+
     }
 
 

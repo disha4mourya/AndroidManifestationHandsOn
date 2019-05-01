@@ -38,6 +38,10 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.1.0-alpha07'
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha07"
 
+    //add LiveData dependencies
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.1.0-alpha04'
+    annotationProcessor 'androidx.lifecycle:lifecycle-livedata-core:2.1.0-alpha04'
+
     testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'androidx.test:runner:1.1.1'
