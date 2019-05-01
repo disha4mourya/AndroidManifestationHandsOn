@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    //required for without lib http call
+    useLibrary 'org.apache.http.legacy'
+
 }
 
 /*
@@ -45,6 +49,15 @@ dependencies {
     //for view model
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha04'
+
+    //for image loading
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //for other server calls
+    implementation 'com.loopj.android:android-async-http:1.4.8'
+    implementation 'com.android.volley:volley:1.1.0'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'

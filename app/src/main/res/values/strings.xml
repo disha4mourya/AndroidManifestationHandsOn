@@ -6,4 +6,9 @@
     <string name="low">Low</string>
     <string name="add_task">Add Task</string>
     <string name="update_button">Update</string>
+    <string name="server_calls">Server Calls</string>
+    <string name="without_any_library">Without any library</string>
+    <string name="using_loopj">Using Loopj</string>
+    <string name="using_volley">Using Volley</string>
+    <string name="using_okhttp">Using Okhttp</string>
 </resources>

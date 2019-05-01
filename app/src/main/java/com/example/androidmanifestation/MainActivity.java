@@ -3,6 +3,8 @@ package com.example.androidmanifestation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telecom.Call;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidmanifestation.database.AppDatabase;
 import com.example.androidmanifestation.database.TaskEntity;
+import com.example.androidmanifestation.server_calls.other_ways.ServerCallOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -77,6 +80,21 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
         setUpViewModel();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_server_call_options) {
+            Intent intent = new Intent(MainActivity.this, ServerCallOptions.class);
+            startActivity(intent);
+        }
+        return true;
+    }
+
     private void setAdapterOnRecyclerView() {
         //Initialize member variable for adapter
         taskAdapter = new TaskAdapter(this, this);
@@ -86,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskC
     }
 
 
-    private void setUpViewModel(){
-        MainViewModel mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
+    private void setUpViewModel() {
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getAllTasks().observe(this, new Observer<List<TaskEntity>>() {
             @Override
             public void onChanged(List<TaskEntity> taskEntities) {
