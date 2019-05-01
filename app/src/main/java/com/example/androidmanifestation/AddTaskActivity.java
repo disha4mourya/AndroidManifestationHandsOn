@@ -1,6 +1,8 @@
 package com.example.androidmanifestation;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -57,13 +59,15 @@ public class AddTaskActivity extends AppCompatActivity {
             if (mTaskId == DEFAULT_TASK_ID) {
                 mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
 
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                final LiveData<TaskEntity> taskEntityLiveData=appDatabase.taskDao().loadTaskById(mTaskId);
+                taskEntityLiveData.observe(this, new Observer<TaskEntity>() {
                     @Override
-                    public void run() {
-                        final TaskEntity taskEntity = appDatabase.taskDao().loadTaskById(mTaskId);
+                    public void onChanged(TaskEntity taskEntity) {
+                        taskEntityLiveData.removeObserver(this);
                         populateUi(taskEntity);
                     }
                 });
+                //remove app executor
             }
         }
     }
