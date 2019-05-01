@@ -3,6 +3,7 @@ package com.example.androidmanifestation;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.example.androidmanifestation.database.AddTaskViewModel;
 import com.example.androidmanifestation.database.AppDatabase;
 import com.example.androidmanifestation.database.TaskEntity;
 
@@ -59,14 +61,28 @@ public class AddTaskActivity extends AppCompatActivity {
             if (mTaskId == DEFAULT_TASK_ID) {
                 mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
 
-                final LiveData<TaskEntity> taskEntityLiveData=appDatabase.taskDao().loadTaskById(mTaskId);
+                AddTaskViewModelFactory addTaskViewModelFactory = new AddTaskViewModelFactory(appDatabase, mTaskId);
+
+                //Declare a AddTaskViewModel variable and initialize it by calling ViewModelProviders.of
+                // for that use the factory created above AddTaskViewModel
+                final AddTaskViewModel addTaskViewModel = ViewModelProviders.of(this, addTaskViewModelFactory).get(AddTaskViewModel.class);
+
+                //Observe the LiveData object in the ViewModel. Use it also when removing the observer
+                addTaskViewModel.getTask().observe(this, new Observer<TaskEntity>() {
+                    @Override
+                    public void onChanged(TaskEntity taskEntity) {
+                        addTaskViewModel.getTask().removeObserver(this);
+                        populateUi(taskEntity);
+                    }
+                });
+               /* final LiveData<TaskEntity> taskEntityLiveData=appDatabase.taskDao().loadTaskById(mTaskId);
                 taskEntityLiveData.observe(this, new Observer<TaskEntity>() {
                     @Override
                     public void onChanged(TaskEntity taskEntity) {
                         taskEntityLiveData.removeObserver(this);
                         populateUi(taskEntity);
                     }
-                });
+                });*/
                 //remove app executor
             }
         }
@@ -120,10 +136,10 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (mTaskId==DEFAULT_TASK_ID) {
+                if (mTaskId == DEFAULT_TASK_ID) {
                     //Use the taskDao in the AppDatabase variable to insert the taskEntry
                     appDatabase.taskDao().insertTask(taskEntity);
-                }else {
+                } else {
                     taskEntity.setId(mTaskId);
                     appDatabase.taskDao().updateTask(taskEntity);
                 }
