@@ -2,11 +2,13 @@ package com.example.androidmanifestation.server_calls.other_ways;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,10 +45,13 @@ public class VolleyServerCall extends AppCompatActivity {
         setContentView(R.layout.activity_no_library_call);
         mContext = this;
 
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Volley");
+        }
         rvSongList = findViewById(R.id.rvSongsList);
         pbLoading = findViewById(R.id.pbLoading);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        GridLayoutManager llm = new GridLayoutManager(this, 2);
         llm.setOrientation(RecyclerView.VERTICAL);
         rvSongList.setLayoutManager(llm);
 
@@ -54,6 +59,17 @@ public class VolleyServerCall extends AppCompatActivity {
         rvSongList.setAdapter(songsAdapter);
 
         loadSongList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void loadSongList() {

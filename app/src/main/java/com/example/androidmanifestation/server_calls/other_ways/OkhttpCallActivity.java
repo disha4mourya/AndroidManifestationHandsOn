@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,10 +44,13 @@ public class OkhttpCallActivity extends AppCompatActivity {
         setContentView(R.layout.activity_no_library_call);
         mContext = this;
 
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Okhttp");
+        }
         rvSongList = findViewById(R.id.rvSongsList);
         pbLoading = findViewById(R.id.pbLoading);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        GridLayoutManager llm = new GridLayoutManager(this, 2);
         llm.setOrientation(RecyclerView.VERTICAL);
         rvSongList.setLayoutManager(llm);
 
@@ -53,6 +58,17 @@ public class OkhttpCallActivity extends AppCompatActivity {
         rvSongList.setAdapter(songsAdapter);
 
         loadSongList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     void loadSongList() {
@@ -96,7 +112,7 @@ public class OkhttpCallActivity extends AppCompatActivity {
         });
     }
 
-    void hideProgressBar(){
+    void hideProgressBar() {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {

@@ -1,10 +1,12 @@
 package com.example.androidmanifestation.server_calls.retrofit_call;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -28,9 +30,14 @@ public class RetrofitCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrofit_call);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Retrofit");
+        }
+
         rvSongList = findViewById(R.id.rvSongsList);
         pbLoading = findViewById(R.id.pbLoading);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        GridLayoutManager llm = new GridLayoutManager(this, 2);
         llm.setOrientation(RecyclerView.VERTICAL);
         rvSongList.setLayoutManager(llm);
 
@@ -40,11 +47,22 @@ public class RetrofitCallActivity extends AppCompatActivity {
         loadSongList();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void loadSongList() {
         pbLoading.setVisibility(View.VISIBLE);
 
         RetrofitServices retrofitServices = RetrofitInstance.getRetrofitInstance().create(RetrofitServices.class);
-        Call<SongsListResult> call=retrofitServices.fetchAllSongs();
+        Call<SongsListResult> call = retrofitServices.fetchAllSongs();
         call.enqueue(new Callback<SongsListResult>() {
             @Override
             public void onResponse(retrofit2.Call<SongsListResult> call, Response<SongsListResult> response) {

@@ -3,6 +3,7 @@ package com.example.androidmanifestation.server_calls.other_ways;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -46,9 +47,14 @@ public class NoLibraryCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_library_call);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("No Library");
+        }
+
         rvSongList = findViewById(R.id.rvSongsList);
         pbLoading = findViewById(R.id.pbLoading);
-        LinearLayoutManager llm = new GridLayoutManager(this,2);
+        GridLayoutManager llm = new GridLayoutManager(this, 2);
         llm.setOrientation(RecyclerView.VERTICAL);
         rvSongList.setLayoutManager(llm);
 
@@ -56,6 +62,17 @@ public class NoLibraryCallActivity extends AppCompatActivity {
         rvSongList.setAdapter(songsAdapter);
 
         fetchList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void fetchList() {
