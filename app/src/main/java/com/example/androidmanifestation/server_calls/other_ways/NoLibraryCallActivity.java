@@ -1,17 +1,20 @@
 package com.example.androidmanifestation.server_calls.other_ways;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidmanifestation.R;
+import com.example.androidmanifestation.server_calls.Constants;
 import com.example.androidmanifestation.server_calls.adapter.SongsAdapter;
 import com.example.androidmanifestation.server_calls.entity.SongsEntity;
 
@@ -29,8 +32,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.CONNECTION_TIMEOUT;
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.READ_TIMEOUT;
+import static com.example.androidmanifestation.server_calls.Constants.CONNECTION_TIMEOUT;
+import static com.example.androidmanifestation.server_calls.Constants.READ_TIMEOUT;
 
 
 public class NoLibraryCallActivity extends AppCompatActivity {
@@ -45,9 +48,14 @@ public class NoLibraryCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_library_call);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("No Library");
+        }
+
         rvSongList = findViewById(R.id.rvSongsList);
         pbLoading = findViewById(R.id.pbLoading);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        GridLayoutManager llm = new GridLayoutManager(this, 2);
         llm.setOrientation(RecyclerView.VERTICAL);
         rvSongList.setLayoutManager(llm);
 
@@ -55,6 +63,17 @@ public class NoLibraryCallActivity extends AppCompatActivity {
         rvSongList.setAdapter(songsAdapter);
 
         fetchList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void fetchList() {

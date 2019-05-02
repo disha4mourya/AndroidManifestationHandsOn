@@ -4,11 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.example.androidmanifestation.server_calls.other_ways.Constants.SONGS_LIST_URL;
+import static com.example.androidmanifestation.server_calls.Constants.SONGS_LIST_URL;
 
 public class OkhttpCallActivity extends AppCompatActivity {
 
@@ -44,9 +45,14 @@ public class OkhttpCallActivity extends AppCompatActivity {
         mContext = this;
 
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Okhttp");
+        }
+
         rvSongList = findViewById(R.id.rvSongsList);
         pbLoading = findViewById(R.id.pbLoading);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        GridLayoutManager llm = new GridLayoutManager(this, 2);
         llm.setOrientation(RecyclerView.VERTICAL);
         rvSongList.setLayoutManager(llm);
 
@@ -54,6 +60,17 @@ public class OkhttpCallActivity extends AppCompatActivity {
         rvSongList.setAdapter(songsAdapter);
 
         loadSongList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     void loadSongList() {
@@ -97,7 +114,7 @@ public class OkhttpCallActivity extends AppCompatActivity {
         });
     }
 
-    void hideProgressBar(){
+    void hideProgressBar() {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
