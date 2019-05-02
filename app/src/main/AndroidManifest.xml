@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddTaskActivity" />
-        <activity android:name=".server_calls.other_ways.ServerCallOptions" />
+        <activity android:name=".server_calls.ServerCallOptions" />
         <activity android:name=".server_calls.other_ways.NoLibraryCallActivity" />
         <activity android:name=".server_calls.other_ways.LoopjCallActivity" />
         <activity android:name=".server_calls.other_ways.VolleyServerCall" />

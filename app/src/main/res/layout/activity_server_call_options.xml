@@ -1,51 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
 
     <Button
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/btnNoLibrary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/without_any_library"/>
-    <Button
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:text="@string/without_any_library"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNoLibrary"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+
         android:id="@+id/btnLoopj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/using_loopj"/>
-    <Button
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="@string/using_loopj"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoopj"
+        app:layout_constraintTop_toBottomOf="@+id/btnNoLibrary" />
+
+    <Button
         android:id="@+id/btnVolley"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/using_volley"/>
-    <Button
+
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:text="@string/using_volley"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVolley"
+        app:layout_constraintTop_toBottomOf="@+id/btnLoopj" />
+
+    <Button
         android:id="@+id/btnOkhttp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/using_okhttp"/>
-    <Button
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="@string/using_okhttp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOkhttp"
+        app:layout_constraintTop_toBottomOf="@+id/btnVolley" />
+
+    <Button
         android:id="@+id/btnRetrofit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Using Retrofit"/>
+
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:text="Using Retrofit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOkhttp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

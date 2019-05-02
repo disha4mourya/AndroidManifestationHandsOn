@@ -1,4 +1,4 @@
-package com.example.androidmanifestation.server_calls.other_ways;
+package com.example.androidmanifestation.server_calls;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidmanifestation.R;
+import com.example.androidmanifestation.server_calls.other_ways.LoopjCallActivity;
+import com.example.androidmanifestation.server_calls.other_ways.NoLibraryCallActivity;
+import com.example.androidmanifestation.server_calls.other_ways.OkhttpCallActivity;
+import com.example.androidmanifestation.server_calls.other_ways.VolleyServerCall;
 import com.example.androidmanifestation.server_calls.retrofit_call.RetrofitCallActivity;
 
 public class ServerCallOptions extends AppCompatActivity implements View.OnClickListener {

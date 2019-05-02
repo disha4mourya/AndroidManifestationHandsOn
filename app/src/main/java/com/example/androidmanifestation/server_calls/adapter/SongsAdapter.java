@@ -14,7 +14,11 @@ import com.example.androidmanifestation.R;
 import com.example.androidmanifestation.server_calls.entity.SongsEntity;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
 
@@ -44,23 +48,23 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         SongsEntity songsEntity = songsEntityList.get(i);
 
         if (songsEntity.getTrackName() != null) {
-            songViewHolder.tvTrackName.setText(songsEntity.getTrackName());
+            songViewHolder.tvName.setText(songsEntity.getTrackName());
         }
 
-        if (songsEntity.getArtistName() != null) {
-            songViewHolder.tvArtist.setText(songsEntity.getArtistName());
+       if (songsEntity.getArtistName() != null) {
+            songViewHolder.tvArtistName.setText(songsEntity.getArtistName());
         }
 
-        if (songsEntity.getTrackTimeMillis() != null) {
+        /* if (songsEntity.getTrackTimeMillis() != null) {
             String time = millisecondsToTime(Long.parseLong(songsEntity.getTrackTimeMillis()));
             songViewHolder.tvDuration.setText(time);
         }
-
+*/
         Picasso.get()
                 .load(songsEntity.getArtworkUrl100())
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
-                .into(songViewHolder.ivListImage);
+                .into(songViewHolder.civProfile);
 
     }
 
@@ -79,12 +83,21 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         TextView tvDuration;
         ImageView ivListImage;
 
+        CircleImageView civProfile;
+        TextView tvName;
+        TextView tvArtistName;
+
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTrackName = itemView.findViewById(R.id.tvTrackName); // title
+
+            civProfile=itemView.findViewById(R.id.civProfile);
+            tvName=itemView.findViewById(R.id.tvName);
+            tvArtistName=itemView.findViewById(R.id.tvArtistName);
+
+            /*tvTrackName = itemView.findViewById(R.id.tvTrackName); // title
             tvArtist = itemView.findViewById(R.id.tvArtist); // artist name
             tvDuration = itemView.findViewById(R.id.tvDuration); // duration
-            ivListImage = itemView.findViewById(R.id.ivListImage); // thumb image
+            ivListImage = itemView.findViewById(R.id.ivListImage); */// thumb image
         }
     }
 
