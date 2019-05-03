@@ -9,7 +9,7 @@ There are different branches which has some starter code and tasks to learn the 
 * Clone the repository - git clone https://github.com/disha4mourya/AndroidManifestationHandsOn.git
 * Open the project in Android Studio
 * Open the terminal window at the bottom of Android Studio
-* Checkout the first task branch:  git checkout simple_sqlite_calls
+* Checkout the first task branch:  git checkout adding_room
 * Go through the project
 
 
