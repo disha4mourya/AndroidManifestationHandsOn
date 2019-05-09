@@ -3,6 +3,17 @@
 This project is created for workshop to learn about advance Android concepts and understand more about different ways server calls in Android.
 
 There are different branches which has some starter code and tasks to learn the concepts step by step
+The steps or you can say branches to be follow are:
+
+1. master
+2. adding_room
+3. adding_room_with_executors
+4. adding_livedata
+5. adding_livedata_add_task
+6. adding_viewmodel_main
+7. adding_viewmodel_add_task
+8. other_server_call
+9. retrofit_server_call
 
 # Getting Started
 
