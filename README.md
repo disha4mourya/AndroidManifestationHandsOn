@@ -2,8 +2,8 @@
 
 This project is created for workshop to learn about advance Android concepts and understand more about different ways server calls in Android.
 
-There are different branches which has some starter code and tasks to learn the concepts step by step
-The steps or you can say branches to be follow are:
+There are different branches which has some starter code and tasks to learn the concepts step by step.
+The branches to follow for step by step execution are:
 
 1. master
 2. adding_room
